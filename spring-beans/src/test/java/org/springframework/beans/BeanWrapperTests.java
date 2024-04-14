@@ -67,7 +67,6 @@ import static org.hamcrest.Matchers.*;
 
 import static org.junit.Assert.*;
 
-
 /**
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -148,8 +147,7 @@ public final class BeanWrapperTests {
 		try {
 			bw.isReadableProperty(null);
 			fail("Can't inquire into readability of null property");
-		}
-		catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex) {
 			// expected
 		}
 	}
@@ -161,8 +159,7 @@ public final class BeanWrapperTests {
 		try {
 			bw.isWritableProperty(null);
 			fail("Can't inquire into writability of null property");
-		}
-		catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex) {
 			// expected
 		}
 	}
@@ -249,8 +246,7 @@ public final class BeanWrapperTests {
 			// Check its unchanged
 			assertTrue("age is OK", t.getAge() == age);
 			assertTrue("name is OK", name.equals(t.getName()));
-		}
-		catch (BeansException ex) {
+		} catch (BeansException ex) {
 			fail("Shouldn't throw exception when everything is valid");
 		}
 	}
@@ -272,8 +268,7 @@ public final class BeanWrapperTests {
 			assertTrue("Validly set property must stick", t.getName().equals(newName));
 			assertTrue("Validly set property must stick", t.getTouchy().equals(newTouchy));
 			assertTrue("Validly set property must stick", t.getAge() == newAge);
-		}
-		catch (BeansException ex) {
+		} catch (BeansException ex) {
 			fail("Shouldn't throw exception when everything is valid");
 		}
 	}
@@ -289,8 +284,7 @@ public final class BeanWrapperTests {
 			assertTrue("Age is an integer", bwAge instanceof Integer);
 			int bwi = ((Integer) bwAge).intValue();
 			assertTrue("Bean wrapper must pick up changes", bwi == newAge);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			fail("Shouldn't throw exception when everything is valid");
 		}
 	}
@@ -298,7 +292,7 @@ public final class BeanWrapperTests {
 	@Test
 	public void testValidNullUpdate() {
 		TestBean t = new TestBean();
-		t.setName("Frank");	// we need to change it back
+		t.setName("Frank"); // we need to change it back
 		t.setSpouse(t);
 		BeanWrapper bw = new BeanWrapperImpl(t);
 		assertTrue("name is not null to start off", t.getName() != null);
@@ -372,8 +366,7 @@ public final class BeanWrapperTests {
 			bw.setPropertyValue("float2", "8.1");
 			bw.setPropertyValue("double2", "6.1");
 			bw.setPropertyValue("bigDecimal", "4.0");
-		}
-		catch (BeansException ex) {
+		} catch (BeansException ex) {
 			fail("Should not throw BeansException: " + ex.getMessage());
 		}
 
@@ -406,8 +399,7 @@ public final class BeanWrapperTests {
 			bw.setPropertyValue("float2", new Double(8.1));
 			bw.setPropertyValue("double2", new BigDecimal(6.1));
 			bw.setPropertyValue("bigDecimal", new Float(4.0));
-		}
-		catch (BeansException ex) {
+		} catch (BeansException ex) {
 			fail("Should not throw BeansException: " + ex.getMessage());
 		}
 
@@ -441,8 +433,7 @@ public final class BeanWrapperTests {
 		try {
 			bw.setPropertyValue("autowire", "NHERITED");
 			fail("Should have thrown TypeMismatchException");
-		}
-		catch (TypeMismatchException ex) {
+		} catch (TypeMismatchException ex) {
 			// expected
 		}
 	}
@@ -470,7 +461,7 @@ public final class BeanWrapperTests {
 		PropsTester pt = new PropsTester();
 		BeanWrapper bw = new BeanWrapperImpl(pt);
 
-		bw.setPropertyValue("stringArray", new String[] {"foo", "fi", "fi", "fum"});
+		bw.setPropertyValue("stringArray", new String[] { "foo", "fi", "fi", "fum" });
 		assertTrue("stringArray length = 4", pt.stringArray.length == 4);
 		assertTrue("correct values", pt.stringArray[0].equals("foo") && pt.stringArray[1].equals("fi") &&
 				pt.stringArray[2].equals("fi") && pt.stringArray[3].equals("fum"));
@@ -513,7 +504,7 @@ public final class BeanWrapperTests {
 			}
 		});
 
-		bw.setPropertyValue("stringArray", new String[] {"4foo", "7fi", "6fi", "5fum"});
+		bw.setPropertyValue("stringArray", new String[] { "4foo", "7fi", "6fi", "5fum" });
 		assertTrue("stringArray length = 4", pt.stringArray.length == 4);
 		assertTrue("correct values", pt.stringArray[0].equals("foo") && pt.stringArray[1].equals("fi") &&
 				pt.stringArray[2].equals("fi") && pt.stringArray[3].equals("fum"));
@@ -571,15 +562,14 @@ public final class BeanWrapperTests {
 			public void setValue(Object value) {
 				if (value instanceof String[]) {
 					setValue(StringUtils.arrayToDelimitedString(((String[]) value), "-"));
-				}
-				else {
+				} else {
 					super.setValue(value != null ? value : "");
 				}
 			}
 		});
 		bw.setPropertyValue("name", new String[] {});
 		assertEquals("", tb.getName());
-		bw.setPropertyValue("name", new String[] {"a1", "b2"});
+		bw.setPropertyValue("name", new String[] { "a1", "b2" });
 		assertEquals("a1-b2", tb.getName());
 		bw.setPropertyValue("name", null);
 		assertEquals("", tb.getName());
@@ -590,12 +580,12 @@ public final class BeanWrapperTests {
 		PropsTester pt = new PropsTester();
 		BeanWrapper bw = new BeanWrapperImpl(pt);
 
-		bw.setPropertyValue("intArray", new int[] {4, 5, 2, 3});
+		bw.setPropertyValue("intArray", new int[] { 4, 5, 2, 3 });
 		assertTrue("intArray length = 4", pt.intArray.length == 4);
 		assertTrue("correct values", pt.intArray[0] == 4 && pt.intArray[1] == 5 &&
 				pt.intArray[2] == 2 && pt.intArray[3] == 3);
 
-		bw.setPropertyValue("intArray", new String[] {"4", "5", "2", "3"});
+		bw.setPropertyValue("intArray", new String[] { "4", "5", "2", "3" });
 		assertTrue("intArray length = 4", pt.intArray.length == 4);
 		assertTrue("correct values", pt.intArray[0] == 4 && pt.intArray[1] == 5 &&
 				pt.intArray[2] == 2 && pt.intArray[3] == 3);
@@ -623,7 +613,7 @@ public final class BeanWrapperTests {
 		assertTrue("correct values", result.contains(new Integer(4)) && result.contains(new Integer(5)) &&
 				result.contains(new Integer(3)));
 
-		bw.setPropertyValue("intArray", new Integer[] {new Integer(1)});
+		bw.setPropertyValue("intArray", new Integer[] { new Integer(1) });
 		assertTrue("intArray length = 4", pt.intArray.length == 1);
 		assertTrue("correct values", pt.intArray[0] == 1);
 
@@ -631,7 +621,7 @@ public final class BeanWrapperTests {
 		assertTrue("intArray length = 4", pt.intArray.length == 1);
 		assertTrue("correct values", pt.intArray[0] == 1);
 
-		bw.setPropertyValue("intArray", new String[] {"1"});
+		bw.setPropertyValue("intArray", new String[] { "1" });
 		assertTrue("intArray length = 4", pt.intArray.length == 1);
 		assertTrue("correct values", pt.intArray[0] == 1);
 
@@ -651,12 +641,12 @@ public final class BeanWrapperTests {
 			}
 		});
 
-		bw.setPropertyValue("intArray", new int[] {4, 5, 2, 3});
+		bw.setPropertyValue("intArray", new int[] { 4, 5, 2, 3 });
 		assertTrue("intArray length = 4", pt.intArray.length == 4);
 		assertTrue("correct values", pt.intArray[0] == 4 && pt.intArray[1] == 5 &&
 				pt.intArray[2] == 2 && pt.intArray[3] == 3);
 
-		bw.setPropertyValue("intArray", new String[] {"3", "4", "1", "2"});
+		bw.setPropertyValue("intArray", new String[] { "3", "4", "1", "2" });
 		assertTrue("intArray length = 4", pt.intArray.length == 4);
 		assertTrue("correct values", pt.intArray[0] == 4 && pt.intArray[1] == 5 &&
 				pt.intArray[2] == 2 && pt.intArray[3] == 3);
@@ -665,7 +655,7 @@ public final class BeanWrapperTests {
 		assertTrue("intArray length = 4", pt.intArray.length == 1);
 		assertTrue("correct values", pt.intArray[0] == 1);
 
-		bw.setPropertyValue("intArray", new String[] {"0"});
+		bw.setPropertyValue("intArray", new String[] { "0" });
 		assertTrue("intArray length = 4", pt.intArray.length == 1);
 		assertTrue("correct values", pt.intArray[0] == 1);
 
@@ -698,8 +688,7 @@ public final class BeanWrapperTests {
 			assertTrue("Validly set property must stick", t.getName().equals(newName));
 			assertTrue("Validly set property must stick", t.getTouchy().equals(newTouchy));
 			assertTrue("Validly set property must stick", t.getAge() == newAge);
-		}
-		catch (BeansException ex) {
+		} catch (BeansException ex) {
 			fail("Shouldn't throw exception when everything is valid");
 		}
 	}
@@ -717,14 +706,14 @@ public final class BeanWrapperTests {
 			pvs.addPropertyValue(new PropertyValue("touchy", invalidTouchy));
 			bw.setPropertyValues(pvs);
 			fail("Should throw exception when everything is valid");
-		}
-		catch (PropertyBatchUpdateException ex) {
+		} catch (PropertyBatchUpdateException ex) {
 			assertTrue("Must contain 2 exceptions", ex.getExceptionCount() == 2);
 			// Test validly set property matches
 			assertTrue("Validly set property must stick", t.getName().equals(newName));
 			assertTrue("Invalidly set property must retain old value", t.getAge() == 0);
 			assertTrue("New value of dodgy setter must be available through exception",
-					ex.getPropertyAccessException("touchy").getPropertyChangeEvent().getNewValue().equals(invalidTouchy));
+					ex.getPropertyAccessException("touchy").getPropertyChangeEvent().getNewValue()
+							.equals(invalidTouchy));
 		}
 	}
 
@@ -735,8 +724,7 @@ public final class BeanWrapperTests {
 			BeanWrapper bw = new BeanWrapperImpl(tb);
 			bw.setPropertyValue("ag", "foobar");
 			fail("Should throw exception on invalid property");
-		}
-		catch (NotWritablePropertyException ex) {
+		} catch (NotWritablePropertyException ex) {
 			// expected
 			assertEquals(1, ex.getPossibleMatches().length);
 			assertEquals("age", ex.getPossibleMatches()[0]);
@@ -750,8 +738,7 @@ public final class BeanWrapperTests {
 			BeanWrapper bw = new BeanWrapperImpl(t);
 			bw.setPropertyValue("age", "foobar");
 			fail("Should throw exception on type mismatch");
-		}
-		catch (TypeMismatchException ex) {
+		} catch (TypeMismatchException ex) {
 			// expected
 		}
 	}
@@ -763,11 +750,9 @@ public final class BeanWrapperTests {
 			BeanWrapper bw = new BeanWrapperImpl(t);
 			bw.setPropertyValue("age", "");
 			fail("Should throw exception on type mismatch");
-		}
-		catch (TypeMismatchException ex) {
+		} catch (TypeMismatchException ex) {
 			// expected
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			fail("Shouldn't throw exception other than Type mismatch");
 		}
 	}
@@ -786,8 +771,7 @@ public final class BeanWrapperTests {
 			// Don't ignore: should fail
 			bw.setPropertyValues(pvs, false);
 			fail("Shouldn't have ignored invalid updates");
-		}
-		catch (NotWritablePropertyException ex) {
+		} catch (NotWritablePropertyException ex) {
 			// OK: but which exception??
 		}
 	}
@@ -817,8 +801,7 @@ public final class BeanWrapperTests {
 		try {
 			bw.getPropertyValue("spouse.spouse.age");
 			fail("Shouldn't have succeded with null path");
-		}
-		catch (NullValueInNestedPathException ex) {
+		} catch (NullValueInNestedPathException ex) {
 			// ok
 			assertTrue("it was the spouse.spouse property that was null, not " + ex.getPropertyName(),
 					ex.getPropertyName().equals("spouse.spouse"));
@@ -852,8 +835,7 @@ public final class BeanWrapperTests {
 		try {
 			bw.setPropertyValue("spouse.age", new Integer(31));
 			fail("Shouldn't have succeeded with null path");
-		}
-		catch (NullValueInNestedPathException ex) {
+		} catch (NullValueInNestedPathException ex) {
 			// expected
 			assertTrue("it was the spouse property that was null, not " + ex.getPropertyName(),
 					ex.getPropertyName().equals("spouse"));
@@ -887,8 +869,7 @@ public final class BeanWrapperTests {
 		try {
 			new BeanWrapperImpl((Object) null);
 			fail("Must throw an exception when constructed with null object");
-		}
-		catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex) {
 			// expected
 		}
 	}
@@ -1054,8 +1035,7 @@ public final class BeanWrapperTests {
 		try {
 			bw.setPropertyValues(pvs);
 			fail("Should have thrown TypeMismatchException");
-		}
-		catch (PropertyBatchUpdateException ex) {
+		} catch (PropertyBatchUpdateException ex) {
 			PropertyAccessException pae = ex.getPropertyAccessException("map[key2]");
 			assertTrue(pae instanceof TypeMismatchException);
 		}
@@ -1137,7 +1117,7 @@ public final class BeanWrapperTests {
 	public void testPrimitiveArray() {
 		PrimitiveArrayBean tb = new PrimitiveArrayBean();
 		BeanWrapper bw = new BeanWrapperImpl(tb);
-		bw.setPropertyValue("array", new String[] {"1", "2"});
+		bw.setPropertyValue("array", new String[] { "1", "2" });
 		assertEquals(2, tb.getArray().length);
 		assertEquals(1, tb.getArray()[0]);
 		assertEquals(2, tb.getArray()[1]);
@@ -1253,8 +1233,7 @@ public final class BeanWrapperTests {
 		BeanWrapper bw = new BeanWrapperImpl(parent);
 		try {
 			bw.getPropertyValue("spouse.bla");
-		}
-		catch (NotReadablePropertyException ex) {
+		} catch (NotReadablePropertyException ex) {
 			assertTrue(ex.getMessage().indexOf(TestBean.class.getName()) != -1);
 		}
 	}
@@ -1342,16 +1321,16 @@ public final class BeanWrapperTests {
 		BeanWrapper bw = new BeanWrapperImpl(tb);
 		Collection<Integer> coll = new HashSet<Integer>();
 		coll.add(new Integer(0));
-		bw.setPropertyValue("collection", new int[] {0});
+		bw.setPropertyValue("collection", new int[] { 0 });
 		List<Integer> set = new LinkedList<Integer>();
 		set.add(new Integer(1));
-		bw.setPropertyValue("set", new int[] {1});
+		bw.setPropertyValue("set", new int[] { 1 });
 		List<Integer> sortedSet = new ArrayList<Integer>();
 		sortedSet.add(new Integer(2));
-		bw.setPropertyValue("sortedSet", new int[] {2});
+		bw.setPropertyValue("sortedSet", new int[] { 2 });
 		Set<Integer> list = new HashSet<Integer>();
 		list.add(new Integer(3));
-		bw.setPropertyValue("list", new int[] {3});
+		bw.setPropertyValue("list", new int[] { 3 });
 		assertEquals(1, tb.getCollection().size());
 		assertTrue(tb.getCollection().containsAll(coll));
 		assertEquals(1, tb.getSet().size());
@@ -1428,7 +1407,7 @@ public final class BeanWrapperTests {
 		assertEquals(1, tb.getList().size());
 		assertTrue(tb.getList().contains("list1"));
 
-		bw.setPropertyValue("list", Arrays.asList(new String[] {"list1 "}));
+		bw.setPropertyValue("list", Arrays.asList(new String[] { "list1 " }));
 		assertTrue(tb.getList().contains("list1"));
 	}
 
@@ -1464,7 +1443,7 @@ public final class BeanWrapperTests {
 
 	@Test
 	public void testSetNumberProperties() {
-	NumberPropertyBean bean = new NumberPropertyBean();
+		NumberPropertyBean bean = new NumberPropertyBean();
 		BeanWrapper bw = new BeanWrapperImpl(bean);
 
 		String byteValue = " " + Byte.MAX_VALUE + " ";
@@ -1518,8 +1497,7 @@ public final class BeanWrapperTests {
 		BeanWrapper bw = new BeanWrapperImpl(ib);
 		try {
 			bw.setPropertyValue("names", "Alef");
-		}
-		catch (NotWritablePropertyException ex) {
+		} catch (NotWritablePropertyException ex) {
 			assertNotNull("Possible matches not determined", ex.getPossibleMatches());
 			assertEquals("Invalid amount of alternatives", 1, ex.getPossibleMatches().length);
 		}
@@ -1531,8 +1509,7 @@ public final class BeanWrapperTests {
 		BeanWrapper bw = new BeanWrapperImpl(ib);
 		try {
 			bw.setPropertyValue("mystring", "Arjen");
-		}
-		catch (NotWritablePropertyException ex) {
+		} catch (NotWritablePropertyException ex) {
 			assertNotNull("Possible matches not determined", ex.getPossibleMatches());
 			assertEquals("Invalid amount of alternatives", 3, ex.getPossibleMatches().length);
 		}
@@ -1564,19 +1541,74 @@ public final class BeanWrapperTests {
 	}
 
 	@Test
+	public void propertyDescriptors() throws Exception {
+		TestBean target = new TestBean();
+		target.setSpouse(new TestBean());
+		BeanWrapper accessor = createAccessor(target);
+		accessor.setPropertyValue("name", "a");
+		accessor.setPropertyValue("spouse.name", "b");
+
+		assertThat(target.getName()).isEqualTo("a");
+		assertThat(target.getSpouse().getName()).isEqualTo("b");
+		assertThat(accessor.getPropertyValue("name")).isEqualTo("a");
+		assertThat(accessor.getPropertyValue("spouse.name")).isEqualTo("b");
+		assertThat(accessor.getPropertyDescriptor("name").getPropertyType()).isEqualTo(String.class);
+		assertThat(accessor.getPropertyDescriptor("spouse.name").getPropertyType()).isEqualTo(String.class);
+
+		assertThat(accessor.isReadableProperty("class.package")).isFalse();
+		assertThat(accessor.isReadableProperty("class.module")).isFalse();
+		assertThat(accessor.isReadableProperty("class.classLoader")).isFalse();
+		assertThat(accessor.isReadableProperty("class.name")).isTrue();
+		assertThat(accessor.isReadableProperty("class.simpleName")).isTrue();
+		assertThat(accessor.getPropertyValue("class.name")).isEqualTo(TestBean.class.getName());
+		assertThat(accessor.getPropertyValue("class.simpleName")).isEqualTo(TestBean.class.getSimpleName());
+		assertThat(accessor.getPropertyDescriptor("class.name").getPropertyType()).isEqualTo(String.class);
+		assertThat(accessor.getPropertyDescriptor("class.simpleName").getPropertyType()).isEqualTo(String.class);
+
+		accessor = createAccessor(new DefaultResourceLoader());
+
+		assertThat(accessor.isReadableProperty("class.package")).isFalse();
+		assertThat(accessor.isReadableProperty("class.module")).isFalse();
+		assertThat(accessor.isReadableProperty("class.classLoader")).isFalse();
+		assertThat(accessor.isReadableProperty("class.name")).isTrue();
+		assertThat(accessor.isReadableProperty("class.simpleName")).isTrue();
+		assertThat(accessor.isReadableProperty("classLoader")).isTrue();
+		assertThat(accessor.isWritableProperty("classLoader")).isTrue();
+		OverridingClassLoader ocl = new OverridingClassLoader(getClass().getClassLoader());
+		accessor.setPropertyValue("classLoader", ocl);
+		assertThat(accessor.getPropertyValue("classLoader")).isSameAs(ocl);
+
+		accessor = createAccessor(new UrlResource("https://spring.io"));
+
+		assertThat(accessor.isReadableProperty("class.package")).isFalse();
+		assertThat(accessor.isReadableProperty("class.module")).isFalse();
+		assertThat(accessor.isReadableProperty("class.classLoader")).isFalse();
+		assertThat(accessor.isReadableProperty("class.name")).isTrue();
+		assertThat(accessor.isReadableProperty("class.simpleName")).isTrue();
+		assertThat(accessor.isReadableProperty("URL.protocol")).isTrue();
+		assertThat(accessor.isReadableProperty("URL.host")).isTrue();
+		assertThat(accessor.isReadableProperty("URL.port")).isTrue();
+		assertThat(accessor.isReadableProperty("URL.file")).isTrue();
+		assertThat(accessor.isReadableProperty("URL.content")).isFalse();
+		assertThat(accessor.isReadableProperty("inputStream")).isFalse();
+		assertThat(accessor.isReadableProperty("filename")).isTrue();
+		assertThat(accessor.isReadableProperty("description")).isTrue();
+	}
+
+	@Test
 	public void testArrayToObject() throws Exception {
 		ArrayToObject foo = new ArrayToObject();
 		BeanWrapperImpl bwi = new BeanWrapperImpl();
 		bwi.setWrappedInstance(foo);
 
-		Object[] array = new Object[] {"1","2"};
-		bwi.setPropertyValue("object", array );
+		Object[] array = new Object[] { "1", "2" };
+		bwi.setPropertyValue("object", array);
 		assertThat(foo.getObject(), equalTo((Object) array));
 
-		array = new Object[] {"1"};
-		bwi.setPropertyValue("object", array );
+		array = new Object[] { "1" };
+		bwi.setPropertyValue("object", array);
 		assertThat(foo.getObject(), equalTo((Object) array));
-}
+	}
 
 	static class Spr10115Bean {
 		private static String prop1;
@@ -1585,7 +1617,6 @@ public final class BeanWrapperTests {
 			Spr10115Bean.prop1 = prop1;
 		}
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class Foo {
@@ -1611,11 +1642,9 @@ public final class BeanWrapperTests {
 		}
 	}
 
-
 	private static class DifferentTestBean extends TestBean {
 		// class to test naming of beans in a BeanWrapper error message
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class NoRead {
@@ -1623,7 +1652,6 @@ public final class BeanWrapperTests {
 		public void setAge(int age) {
 		}
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class EnumTester {
@@ -1638,7 +1666,6 @@ public final class BeanWrapperTests {
 			return autowire;
 		}
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class PropsTester {
@@ -1668,7 +1695,6 @@ public final class BeanWrapperTests {
 		}
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class GetterBean {
 
@@ -1686,7 +1712,6 @@ public final class BeanWrapperTests {
 		}
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class ThrowsException {
 
@@ -1694,7 +1719,6 @@ public final class BeanWrapperTests {
 			throw t;
 		}
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class PrimitiveArrayBean {
@@ -1709,7 +1733,6 @@ public final class BeanWrapperTests {
 			this.array = array;
 		}
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class NumberPropertyBean {
@@ -1829,21 +1852,24 @@ public final class BeanWrapperTests {
 		}
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class IntelliBean {
 
-		public void setName(String name) {}
+		public void setName(String name) {
+		}
 
-		public void setMyString(String string) {}
+		public void setMyString(String string) {
+		}
 
-		public void setMyStrings(String string) {}
+		public void setMyStrings(String string) {
+		}
 
-		public void setMyStriNg(String string) {}
+		public void setMyStriNg(String string) {
+		}
 
-		public void setMyStringss(String string) {}
+		public void setMyStringss(String string) {
+		}
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class Employee extends TestBean {
@@ -1858,7 +1884,6 @@ public final class BeanWrapperTests {
 			this.co = co;
 		}
 	}
-
 
 	@SuppressWarnings("serial")
 	public static class ReadOnlyMap<K, V> extends HashMap<K, V> {
@@ -1880,8 +1905,7 @@ public final class BeanWrapperTests {
 		public V put(K key, V value) {
 			if (this.frozen) {
 				throw new UnsupportedOperationException();
-			}
-			else {
+			} else {
 				return super.put(key, value);
 			}
 		}
@@ -1909,7 +1933,6 @@ public final class BeanWrapperTests {
 		}
 	}
 
-
 	@SuppressWarnings("serial")
 	public static class TypedReadOnlyMap extends ReadOnlyMap<String, TestBean> {
 
@@ -1921,13 +1944,11 @@ public final class BeanWrapperTests {
 		}
 	}
 
-
 	public static class TypedReadOnlyMapClient {
 
 		public void setMap(TypedReadOnlyMap map) {
 		}
 	}
-
 
 	public static class EnumConsumer {
 
@@ -1942,7 +1963,6 @@ public final class BeanWrapperTests {
 		}
 	}
 
-
 	public static class WildcardEnumConsumer {
 
 		private Enum<?> enumValue;
@@ -1956,17 +1976,14 @@ public final class BeanWrapperTests {
 		}
 	}
 
-
 	public enum TestEnum {
 
 		TEST_VALUE
 	}
 
-
 	static class ArrayToObject {
 
 		private Object object;
-
 
 		public void setObject(Object object) {
 			this.object = object;

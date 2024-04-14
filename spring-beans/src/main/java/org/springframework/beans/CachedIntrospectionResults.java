@@ -265,10 +265,13 @@ public class CachedIntrospectionResults {
 					// Only allow all name variants of Class properties
 					continue;
 				}
-				if (pd.getPropertyType() != null && (ClassLoader.class.isAssignableFrom(pd.getPropertyType())
-				  || ProtectionDomain.class.isAssignableFrom(pd.getPropertyType()))) {
-					// Ignore ClassLoader and ProtectionDomain types - nobody needs to bind to those
+				if (URL.class == beanClass && "content".equals(pd.getName())) {
+					// Only allow URL attribute introspection, not content resolution
 					continue;
+				}
+				if (pd.getWriteMethod() == null && isInvalidReadOnlyPropertyType(pd.getPropertyType())) {
+					// Ignore read-only properties such as ClassLoader - no need to bind to those
+										continue;
 				}
 				if (logger.isTraceEnabled()) {
 					logger.trace("Found bean property '" + pd.getName() + "'" +
@@ -277,9 +280,8 @@ public class CachedIntrospectionResults {
 									"; editor [" + pd.getPropertyEditorClass().getName() + "]" : ""));
 				}
 				pd = buildGenericTypeAwarePropertyDescriptor(beanClass, pd);
-				if (pd.getPropertyType() != null && (ClassLoader.class.isAssignableFrom(pd.getPropertyType())
-					|| ProtectionDomain.class.isAssignableFrom(pd.getPropertyType()))) {
-					// Ignore ClassLoader and ProtectionDomain types - nobody needs to bind to those
+				if (pd.getWriteMethod() == null && isInvalidReadOnlyPropertyType(pd.getPropertyType())) {
+					// Ignore read-only properties such as ClassLoader - no need to bind to those
 					continue;
 				}
 				this.propertyDescriptorCache.put(pd.getName(), pd);
@@ -290,6 +292,12 @@ public class CachedIntrospectionResults {
 		}
 	}
 
+	private boolean isInvalidReadOnlyPropertyType(Class<?> returnType) {
+		return (returnType != null && (AutoCloseable.class.isAssignableFrom(returnType) ||
+				ClassLoader.class.isAssignableFrom(returnType) ||
+				ProtectionDomain.class.isAssignableFrom(returnType)));
+	}
+		
 	BeanInfo getBeanInfo() {
 		return this.beanInfo;
 	}
